@@ -31,3 +31,31 @@
     transform: rotate(360deg);
   }
 }
+/* div{
+  border: 1px solid orange;
+} */
+body{
+  background-color: #f3f3f3 
+}
+.mycard{
+  background-color: white;
+  padding:0px;
+}
+.mycard img{
+  border-bottom:0.5px solid #4ec697;
+}
+.lama{
+  border-radius:50%;
+  height: 40px;
+  width: 40px;
+  right: 1;
+  font-size:10px;
+  color: white;
+  font-weight: 700;
+  background-color: #54b59f;
+}
+.genre{
+  width: 70px;
+  font-size: 10px;
+  
+}
