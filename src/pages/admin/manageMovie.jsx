@@ -315,7 +315,7 @@ class Managemovie extends React.Component {
         return ( 
             <Container fixed>
                 <h1>Manage movie Page</h1>
-                <input type='button' className='btn btn-outline-success mb-3' value='Add Data' onClick={()=>this.setState({modalOpen:true})} />
+                <input type='button' className='btn btn-manage  mb-3' value='Add Data' onClick={()=>this.setState({modalOpen:true})} />
                 {/* modalll start */}
                     <Modal className='text-dark' isOpen={this.state.modalOpen} toggle={() => this.setState({modalOpen : false})}>
                         <ModalHeader>
@@ -368,13 +368,13 @@ class Managemovie extends React.Component {
                         </ModalFooter>    
                     </Modal>
                     {this.rendermodal()}
-                    <Modal isOpen={this.state.modaldelete} toggle={()=>this.setState({modaldelete:false})} className='text-dark'>
+                    <Modal isOpen={this.state.modaldelete} centered='true' className='' contentClassName='bg-login text-white' toggle={()=>this.setState({modaldelete:false})} className='text-dark'>
                         <ModalBody>
-                            Apakah anda yakin untuk menghapus film {this.state.deletetittle}?
+                            Apakah anda yakin untuk menghapus film <span className='text-weiht-bolder'>{'"'+this.state.deletetittle+'"'}</span>?
                         </ModalBody>
                         <ModalFooter>
-                            <input type='button' value='yes'onClick={this.onYesClick}/>
-                            <input type='button' value='Cancel' onClick={()=>this.setState({modaldelete:false})}/>
+                            <input type='button' className='btn-manage rounded lbr-btn' value='Yes'onClick={this.onYesClick}/>
+                            <input type='button' value='Cancel' className='btn-manage rounded lbr-btn' onClick={()=>this.setState({modaldelete:false})}/>
                         </ModalFooter>
                     </Modal>
                 {/* modal end */}

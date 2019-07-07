@@ -232,3 +232,20 @@ body{
 .btn-trailer-buy:focus{
   outline: black;
 }
+/* manage movie start */
+.btn-manage{
+  color: whitesmoke;
+  border: 1px solid white;
+  transition: 200mx;
+  
+}
+.btn-manage:hover{
+  color: #5b0008;
+  background-color: whitesmoke;
+  font-weight: 800;
+  border: 2px solid #5b0008;
+}
+.lbr-btn{
+  width: 70px;
+  color: black;
+}
