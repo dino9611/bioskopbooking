@@ -35,27 +35,200 @@
   border: 1px solid orange;
 } */
 body{
-  background-color: #f3f3f3 
+  background: linear-gradient(to right, #0F2027,rgba(91, 0, 8, 0.809));
+  
+  /* background-image:url(./supports/Toyogeki-Movie_Toyooka002.jpg); */
+
+  color: white 
 }
+/* movielist */
 .mycard{
-  background-color: white;
+  color: whitesmoke;
+  background-color: rgb(15, 32, 39,0.5);
   padding:0px;
+
 }
 .mycard img{
-  border-bottom:0.5px solid #4ec697;
+  border-bottom:0.5px solid rgba(91, 0, 8, 0.809) ;
+  
 }
 .lama{
   border-radius:50%;
   height: 40px;
   width: 40px;
-  right: 1;
+  right: 0;
+  z-index: 10;
+  top: 50px;
+  left: 210px;
   font-size:10px;
   color: white;
   font-weight: 700;
-  background-color: #54b59f;
+  background-color: rgba(91, 0, 8, 0.809);
 }
+
+
 .genre{
   width: 70px;
   font-size: 10px;
   
+}
+.sutradara{
+  font-size: 11.5px;
+}
+.petunjuk:hover{
+  cursor: pointer;
+}
+/* header */
+.header-login{
+  border:0.4px solid white;
+  width: 70px;
+  padding-bottom: 3px;
+}
+.header-login:hover{
+  border:1.2px solid white;
+  font-weight: 800;
+}
+.user{
+  font-weight: 700;
+}
+.logo:hover{
+  font-weight: 800;
+}
+.header-login:active{
+  color: #5b0008;
+}
+.latar{
+  background-color: rgba(91, 0, 8, 0.659);
+}
+.putih{
+  color:white !important;
+}
+/* movielist */
+.hitam{
+  position: absolute;
+  top: 55px;
+  width: 265px;
+  display: block;
+  background-color: rgb(0, 0, 0,0);
+  /* opacity: 0; */
+  height: 378px;
+  z-index: 90;
+  transition: 500ms;
+  padding-top: 175px;
+  color: transparent !important;
+  font-size: 40px;
+}
+
+.hitam:hover{
+  background-color: rgb(0, 0, 0,0.6);
+  color: whitesmoke !important;
+}
+
+.tampak{
+  color:rgb(245, 245, 245,0);
+  transition: 100ms;
+  /* opacity: 0; */
+  /* margin-left: 102px; */
+  /* font-size: 40px; */
+  text-decoration: none;
+}
+.hitam:hover  .tampak{
+  color:rgb(245, 245, 245,1);
+}
+.hitam:hover .movie-detail{
+  color: white;
+  border:1px solid rgb(250, 250, 250) !important;
+}
+.hitam:hover .tampak:hover{
+  color: rgb(226, 13, 31);
+}
+.movie-detail{
+  margin-left: 52px;
+  font-size: 20px;
+  width: 150px;
+  height: 35px;
+  text-decoration: none !important;
+}
+.tampak:hover .movie-detail{
+  text-decoration: none !important;
+  border:1px solid rgba(226, 13, 31)!important;
+  color: rgb(226, 13, 31);
+}
+.gambar-login{
+  background-size: cover;
+}
+.merah{
+  color: #5b0008;
+}
+.merah:hover{
+  cursor: pointer;
+  font-weight: bolder;
+}
+/* modal movie detail */
+.tbl-modal{
+  background-color: #5b00088b;
+  color:whitesmoke;
+  width: 28px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 10px;
+  margin-top: 6px;
+  z-index:2000;
+}
+.tbl-modal:hover{
+  font-weight: 800;
+  cursor: pointer;
+}
+/* login register */
+.bg-login{
+  /* background-color: #5b0008a3; */
+  background-color: rgb(15, 32, 39,0.5);
+  width: 100%;
+  border: transparent;
+}
+.input-data{
+  background-color: transparent;
+  width: 100%;
+  height: 40px;
+  border-bottom: 0.5px solid grey;
+  border-left: transparent;
+  border-right: transparent;
+  border-top: transparent;
+  color: whitesmoke;
+}
+.input-data:focus{
+  outline: none;
+}
+.garis{
+  border: 0.2px solid white;
+  width: 100%;
+
+}
+.btn-seat{
+  width: 30%;
+  background-color: #5b0008;
+  color: whitesmoke;
+  border: transparent;
+  height: 30px;
+}
+.btn-seat:focus{
+  outline: none;
+}
+/* movie-detail */
+.btn-trailer-buy{
+  width: 15%;
+  background-color: #5b0008b6;
+  color: rgba(245, 245, 245, 0.796);
+  border: 1px solid #5b0008e3;
+  height: 30px;
+  transition: 100ms;
+}
+.btn-trailer-buy:hover{
+  background-color: #5b0008;
+  color: whitesmoke;
+  font-weight: 700;
+}
+.btn-trailer-buy:focus{
+  outline: black;
 }

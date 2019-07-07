@@ -11,8 +11,12 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faCouch,faUser} from '@fortawesome/free-solid-svg-icons'
+import {connect} from 'react-redux'
 
-export default class Example extends React.Component {
+
+class Header extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,31 +33,33 @@ export default class Example extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <Navbar className='latar' color light expand="md">
+          <NavbarBrand className='putih logo' href="/"><FontAwesomeIcon icon={faCouch} className='mr-1'/>SeatforYou</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+          <Collapse isOpen={this.state.isOpen} className='putih' navbar>
+            <Nav className="ml-auto putih" navbar>
+              <NavItem >
+                <NavLink className='putih' href="/manage">Manage</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+              {this.props.user.username===''?
+                 <NavLink href='/login'className='text-white ' style={{textDecoration:'none'}}><div className='header-login rounded-pill text-center'>Login</div></NavLink>
+                :null }
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
+              <UncontrolledDropdown nav>
+                <DropdownToggle className='putih' nav>
+                {this.props.user.username===''?null: <NavLink className='text-white user p-0'><FontAwesomeIcon icon={faUser} className=''/> {this.props.user.username}</NavLink> } 
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Option 1
+                    Option
                   </DropdownItem>
                   <DropdownItem>
-                    Option 2
+                     Option 2
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    Reset
+                     LogOut
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -64,3 +70,9 @@ export default class Example extends React.Component {
     );
   }
 }
+const mapStateToProps=(state)=>{
+  return{
+      user:state.user
+  }
+}
+export default connect(mapStateToProps)(Header);
