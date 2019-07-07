@@ -46,13 +46,12 @@ class MovieDetail extends React.Component {
                     <img height='430px' src={this.state.data.image} alt="sdada"/>
                 </div>
                 <div className="col-md-8">
-                    {this.props.user.username}
                     <h1>{this.state.data.title}</h1>
-                    <p>{this.state.data.genre}</p>
-                    <h5>{this.state.data.sutradara}</h5>
-                    <p>{this.state.data.duration} minutes</p>
-                    <p>Playing at: {[this.state.data.playingAt].join('')}</p>
-                    <p style={{fontStyle:'italic'}}> {this.state.data.sinopsis} </p>
+                    <p>Genre    : {this.state.data.genre}</p>
+                    <h5>Sutradara : {this.state.data.sutradara}</h5>
+                    <p>Duration :{this.state.data.duration} minutes</p>
+                    <p>Playing at : {[this.state.data.playingAt].join('')}</p>
+                    <p style={{fontStyle:'italic'}}>Sinopsis<br/> {this.state.data.sinopsis} </p>
                     <input onClick={this.onBuyTicketClick} type='button' className='btn-trailer-buy rounded mr-3' value='Buy tiket'/>
                     <input type='button' className='btn-trailer-buy rounded' value='Trailer' onClick={()=>this.setState({isOpen:true})}/> 
                 </div>
