@@ -10,3 +10,26 @@ export const OnLoginSuccess=(data)=>{
         payload:data
     }
 }
+export const onLogout=()=>{
+    return{
+        type:'LOG_OUT'
+    }
+}
+export const onOKPilihan=(data)=>{
+    return{
+        type:'PILIHAN',
+        payload:data
+    }
+}
+export const onMoviePilihan=(data)=>{
+    return{
+        type:'MOVIE',
+        payload:data
+    }
+}
+export const onGabungan=(data)=>{
+    return{
+        type:'GABUNGAN',
+        payload:data
+    }
+}

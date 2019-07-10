@@ -1,9 +1,10 @@
 import React from 'react';
 import Axios from 'axios';
 import {connect} from 'react-redux'
-import {Redirect,Link} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {Modal, ModalBody, ModalHeader,ModalFooter} from 'reactstrap'
-
+// import SeatReserve from './seatreserve'
+// import{Route} from 'react-router-dom'
 
 class MovieDetail extends React.Component {
     state = {
@@ -17,7 +18,7 @@ class MovieDetail extends React.Component {
         var id=this.props.location.search.split('=')[1]
         Axios.get('http://localhost:2000/movies/'+id)
         .then((res)=>{
-            console.log(res.data)
+            // console.log(res.data)
             this.setState({data:res.data})
             this.setState({login:null})
         }).catch((err)=>{
@@ -35,10 +36,12 @@ class MovieDetail extends React.Component {
         this.setState({login:false})
     }
     renderMoviesdetail =()=>{
+        var id=this.props.location.search.split('=')[1]
         if(this.state.login===false){
             return (<Redirect to='/login'></Redirect>)
         }else if(this.state.login===true){
-            return(<Redirect to='/seatreserve'></Redirect>)
+            return(<Redirect to={{pathname: '/seatreserve',state:this.state.data}}></Redirect>)
+            // ada 2 cara mempassing data bisa redirect bisa pakai axios
         }
         return(
             <div className="row">
@@ -92,6 +95,7 @@ class MovieDetail extends React.Component {
         return (
             <div className='container mt-5 mb-5'>
                 {this.renderMoviesdetail()}
+                {/* <Route path='/seatreserve' component={SeatReserve}/> */}
             </div>
             
           );

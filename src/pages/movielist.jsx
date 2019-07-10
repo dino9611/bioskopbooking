@@ -8,7 +8,7 @@ import 'slick-carousel/slick/slick-theme.css'
 // import {DetailsRounded} from '@material-ui/icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCouch} from '@fortawesome/free-solid-svg-icons'
-import {Link,Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class Movielist extends React.Component {
     state = { 

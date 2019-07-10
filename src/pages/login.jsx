@@ -1,5 +1,5 @@
 import React from 'react';
-import {Paper} from '@material-ui/core'
+
 import {Link} from'react-router-dom'
 //ambil input value
 // password dan confirm password harus sama
@@ -11,7 +11,7 @@ import Loader from 'react-loader-spinner'
 import Axios from 'axios'
 import {Redirect} from 'react-router-dom'
 import {OnLoginSuccess} from './../redux/actions'
-import { makeStyles } from '@material-ui/core/styles'
+
 
 class Login extends React.Component {
     state = {
@@ -32,7 +32,7 @@ class Login extends React.Component {
                 Axios.get('http://localhost:2000/users?email='+username)
                 .then((res)=>{
                     if(res.data.length===0){
-                        this.setState({error:'Username/Email not founded'})
+                        this.setState({error:'Username/Email invalid'})
                     }else{
                         if(res.data[0].password!==password&&(res.data[0].username===username||res.data[0].email===username)){
                             this.setState({error:'Your Password is wrong'})
@@ -41,7 +41,7 @@ class Login extends React.Component {
                         }else if(res.data[0].password===password&&(res.data[0].username===username||res.data[0].email===username)){
                            this.setState({loading:true})
                            this.props.OnLoginSuccess(res.data[0])
-    
+                           localStorage.setItem('terserah',res.data[0].username)
                         }
                         
                     }
@@ -53,7 +53,7 @@ class Login extends React.Component {
                 Axios.get('http://localhost:2000/users?username='+username)
                 .then((res)=>{
                     if(res.data.length===0){
-                        this.setState({error:'Username/Email not founded'})
+                        this.setState({error:'Username/Email invalid'})
                     }else{
                         if(res.data[0].password!==password&&(res.data[0].username===username||res.data[0].email===username)){
                             this.setState({error:'Your Password is wrong'})
@@ -61,10 +61,9 @@ class Login extends React.Component {
                             this.setState({error:'Username is wrong'})
                         }else if(res.data[0].password===password&&(res.data[0].username===username||res.data[0].email===username)){
                            this.setState({loading:true})
-                           this.props.OnLoginSuccess(res.data[0])
-    
-                        }
-                        
+                           localStorage.setItem('terserah',res.data[0].username)
+                           this.props.OnLoginSuccess(res.data[0])                          
+                        }    
                     }
                 })
                 .catch((err)=>{

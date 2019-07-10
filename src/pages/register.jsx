@@ -1,5 +1,5 @@
 import React from 'react';
-import {Paper} from '@material-ui/core'
+// import {Paper} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import Axios from 'axios';
 import Loader from 'react-loader-spinner'
@@ -48,10 +48,10 @@ class Register extends React.Component {
                         this.setState({loading:false})
                         this.setState({error:'username has been taken'})
                     }else{
-                        
                         Axios.post('http://localhost:2000/users',{username,password,email})
                         .then((res)=>{
                             this.props.OnRegistersuccess(res.data)
+                            localStorage.setItem('terserah',res.data.username)
                         })
                         .catch((err)=>{
                             console.log(err);

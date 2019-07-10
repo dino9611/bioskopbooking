@@ -4,14 +4,14 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableFooter,
+    
     Paper,
     Container,
     TableHead,
     TableRow,
 } from '@material-ui/core'
 // import {red} from '@material-ui/core/colors'
-import {DeleteForeverRounded,EditAttributesSharp,SaveRounded,CancelRounded} from '@material-ui/icons'
+import {DeleteForeverRounded,EditAttributesSharp} from '@material-ui/icons'
 import Axios from 'axios'
 import {Modal, ModalBody, ModalHeader,ModalFooter,FormGroup,Label,Input} from 'reactstrap'
 import {ModalEdit} from './../../components/modal' 
