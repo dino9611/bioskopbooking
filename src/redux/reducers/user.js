@@ -7,6 +7,8 @@ export default(state=INITIAL_STATE,action)=>{
         return action.payload
     }else if(action.type==='LOG_OUT'){
         return INITIAL_STATE
+    // }else if(action.type==='ADMIN'){
+    //     return action.payload
     }
     else{
         return state

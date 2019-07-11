@@ -10,21 +10,32 @@ import {connect} from 'react-redux'
 import Loader from 'react-loader-spinner'
 import Axios from 'axios'
 import {Redirect} from 'react-router-dom'
-import {OnLoginSuccess} from './../redux/actions'
+import {OnLoginSuccess,onLoginAdmin} from './../redux/actions'
 
 
 class Login extends React.Component {
     state = {
         error:'',
         loading:false,
+        admindata:[],
       }
     changeBg = () => {
         document.body.style.background='yellow'
     }
+    componentDidMount(){
+        Axios.get('http://localhost:2000/admin')
+        .then((res)=>{
+            this.setState({admindata:res.data})
+            console.log(this.state.admindata)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
     onBtnLoginclick=()=>{
         var username=this.refs.username.value
-        var checkemail=username.split('').filter(val=>val==='@')[0]
         var password=this.refs.password.value
+        var checkemail=username.split('').filter(val=>val==='@')[0]
         if(username===''||password===''){
             this.setState({error:'there are something missing in form'})
         }else{
@@ -39,11 +50,10 @@ class Login extends React.Component {
                         }else if(res.data[0].password===password&&res.data[0].email!==username){
                             this.setState({error:'Email is wrong'})
                         }else if(res.data[0].password===password&&(res.data[0].username===username||res.data[0].email===username)){
-                           this.setState({loading:true})
-                           this.props.OnLoginSuccess(res.data[0])
-                           localStorage.setItem('terserah',res.data[0].username)
-                        }
-                        
+                            this.setState({loading:true})
+                            this.props.OnLoginSuccess(res.data[0])
+                            localStorage.setItem('terserah',res.data[0].username)
+                        }  
                     }
                 })
                 .catch((err)=>{
@@ -60,9 +70,9 @@ class Login extends React.Component {
                         }else if(res.data[0].password===password&&res.data[0].username!==username){
                             this.setState({error:'Username is wrong'})
                         }else if(res.data[0].password===password&&(res.data[0].username===username||res.data[0].email===username)){
-                           this.setState({loading:true})
-                           localStorage.setItem('terserah',res.data[0].username)
-                           this.props.OnLoginSuccess(res.data[0])                          
+                            this.setState({loading:true})
+                            localStorage.setItem('terserah',res.data[0].username)
+                            this.props.OnLoginSuccess(res.data[0])                          
                         }    
                     }
                 })
@@ -72,6 +82,7 @@ class Login extends React.Component {
             }
         }
     }
+    
     render() {
         if(this.props.user.username!==''){
             return (<Redirect to='/'></Redirect>)
@@ -111,7 +122,7 @@ class Login extends React.Component {
 }
 const mapStateToProps=(state)=>{
     return{
-        user:state.user
+        user:state.user,
     }
 } 
-export default connect(mapStateToProps,{OnLoginSuccess}) (Login);
+export default connect(mapStateToProps,{OnLoginSuccess,onLoginAdmin}) (Login);

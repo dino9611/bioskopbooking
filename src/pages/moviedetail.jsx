@@ -26,9 +26,10 @@ class MovieDetail extends React.Component {
         })
     }
     onBuyTicketClick=()=>{
-        if(this.props.user.id===0){
+        if(this.props.user.id===0||this.props.user.admin===true){
             this.setState({loginfo:true})
-        }else{
+        }
+        else{
             this.setState({login:true})
         }
     }
@@ -36,7 +37,7 @@ class MovieDetail extends React.Component {
         this.setState({login:false})
     }
     renderMoviesdetail =()=>{
-        var id=this.props.location.search.split('=')[1]
+        // var id=this.props.location.search.split('=')[1]
         if(this.state.login===false){
             return (<Redirect to='/login'></Redirect>)
         }else if(this.state.login===true){
@@ -44,7 +45,7 @@ class MovieDetail extends React.Component {
             // ada 2 cara mempassing data bisa redirect bisa pakai axios
         }
         return(
-            <div className="row">
+            <div className="row" >
                 <div className="col-md-4">
                     <img height='430px' src={this.state.data.image} alt="sdada"/>
                 </div>
@@ -77,7 +78,7 @@ class MovieDetail extends React.Component {
                             <div className='tbl-modal rounded-circle text-center' onClick={()=>this.setState({loginfo:false})}>X</div>
                         </ModalHeader>
                         <ModalBody>
-                            For buying this ticket you need to login first
+                            {this.props.user.admin===true?'admin tidak bisa masuk': 'For buying this ticket you need to login first'}
                         </ModalBody>
                         <ModalFooter>
                             <input type='button' value='OK'className='btn-seat rounded-pill' onClick={this.onOKClick}/>

@@ -13,6 +13,8 @@ import {Link} from 'react-router-dom'
 class Movielist extends React.Component {
     state = { 
         data:[],
+        currentMovie : null,
+        filtertext : "",
     
     }
     componentDidMount(){
@@ -31,8 +33,15 @@ class Movielist extends React.Component {
     // di movie detail kita get movie berdasarkan ID
     // dapat data, kemudian taruh di state
     // lalu state di render
+    onFilterChange = (word) => {
+        this.setState({
+            filtertext : word
+        })
+    }
     renderMovies=()=>{
-        return this.state.data.map((val)=>{
+        return this.state.data.filter((val)=> {
+            return val.title.toLowerCase().indexOf(this.state.filtertext.toLowerCase()) !== -1
+        }).map((val)=>{
             return(
                     <div className=' p-2'>
                         <div className="hitam text-center" >
@@ -79,6 +88,7 @@ class Movielist extends React.Component {
         return (
             <div className='container mt-3 px-2 pb-4'>
                 <div className=' justify-content-center'>
+                    <input ref='filterbox' type='text' onChange={()=>this.onFilterChange(this.refs.filterbox.value)}></input>
                     {
                         window.innerWidth>200? 
                         <Slider {...settings}>{this.renderMovies()}</Slider>:

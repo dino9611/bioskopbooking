@@ -4,7 +4,7 @@ import Axios from 'axios'
 import { Modal,ModalHeader,ModalFooter,ModalBody } from 'reactstrap';
 import{Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {onOKPilihan,onMoviePilihan} from './../redux/actions/auth'
+import {onOKPilihan,onMoviePilihan,OnRegistersuccess} from './../redux/actions/auth'
 import Pagenotfouund from './pagesnotfound'
 import { ApiURL } from '../supports/UApiURL';
 
@@ -30,11 +30,17 @@ class SeatReserve extends React.Component {
         if(this.props.location.state!==undefined){
             this.setState({
                 datamovie:this.props.location.state,
-                booked:this.props.location.state.booked,
                 seats:this.props.location.state.seats,
                 baris:this.props.location.state.seats/20})
+                Axios.get(ApiURL+'/movies/'+this.props.location.state.id)
+                .then((res)=>{
+                    this.setState({booked:res.data.booked})
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
             }
-        }
+            }
     // functions
     onBtnOrderClick=(baris,seats)=>{
         var arr=[baris,seats]
@@ -118,13 +124,45 @@ class SeatReserve extends React.Component {
             alert('harus pesan ')
             this.setState({modalopen:false})
         }else{
-            this.props.onOKPilihan(this.state.pilih)
-            this.props.onMoviePilihan(this.state.datamovie)
-            this.setState({openredirect:true})
+            var quantity=this.state.pilih.length
+            var seats=this.state.pilih
+            var totalharga=quantity*35000
+            var movie=this.props.location.state.title
+            var usercart=this.props.user.cart
+            var arr=[...usercart,{title:movie,quantity,totalharga,seats}]
+            for(var i=0;i<usercart.length;i++){
+                if(movie===usercart[i].title){
+                    usercart[i].quantity+=quantity
+                    usercart[i].totalharga+=totalharga
+                    usercart[i].seats.push(...seats)
+                    arr=usercart
+                }
+            }
+            Axios.patch(ApiURL+'/users/'+this.props.id,{
+                cart:arr
+            })
+            .then((res)=>{
+                this.props.OnRegistersuccess(res.data)
+                var booked =this.props.location.state.booked
+                var arr=[...booked,...this.state.pilih]
+                Axios.patch(ApiURL+'/movies/'+this.props.location.state.id,{
+                    booked:arr
+                })
+                .then((res)=>{
+                    console.log(res.data)
+                    this.setState({booked:res.data.booked,pilih:[], openredirect:true})
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+            // this.setState({openredirect:true})
         }
     }
     onBuyClick=()=>{
-        var transaction=this.props.transaction
         if(this.state.pilih!==0){
             var booked =this.props.location.state.booked
             var arr=[...booked,...this.state.pilih]
@@ -133,15 +171,7 @@ class SeatReserve extends React.Component {
             })
             .then((res)=>{
                 console.log(res.data)
-                var obj={
-                    title:this.props.location.state.title,
-                    qty:this.state.pilih.length,
-                    total:this.state.pilih.length*35000
-                }
-                transaction.push(obj)
-                Axios.patch(ApiURL+'/users/'+this.props.id,{
-                    transaction:transaction
-                })
+                this.setState({booked:res.data.booked,pilih:[]})
             })
             .catch((err)=>{
                 console.log(err)
@@ -150,7 +180,7 @@ class SeatReserve extends React.Component {
         
     }
     render() { 
-        if(this.props.location.state===undefined){
+        if(this.props.location.state===undefined||this.props.user.role==='admin'){
             return(<Pagenotfouund/>)
         }
         if(this.state.openredirect===true){
@@ -204,4 +234,4 @@ const mapStateToProps=(state)=>{
         transaction:state.user.transaction
     }
 }
-export default connect(mapStateToProps,{onOKPilihan,onMoviePilihan}) (SeatReserve);
+export default connect(mapStateToProps,{onOKPilihan,onMoviePilihan,OnRegistersuccess}) (SeatReserve);

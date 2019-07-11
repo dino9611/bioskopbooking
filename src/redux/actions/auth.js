@@ -33,3 +33,9 @@ export const onGabungan=(data)=>{
         payload:data
     }
 }
+export const onLoginAdmin=(data)=>{
+    return{
+        type:'ADMIN',
+        payload:data
+    }
+}

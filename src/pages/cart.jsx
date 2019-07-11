@@ -2,32 +2,34 @@ import React from 'react';
 import {connect} from 'react-redux'
 import {onGabungan} from './../redux/actions'
 import Axios from 'axios'
+import { ApiURL } from '../supports/UApiURL';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    
+    Paper,
+    Container,
+    TableHead,
+    TableRow,
+} from '@material-ui/core'
 
 class Cart extends React.Component {
     state = {
-        filmpilihan:this.props.user.cart,
+        cart:[],
+        cartfinal:[]
 
       }
     componentDidMount(){
-        if(this.props.pilih.length!==0){
-            var datafilm=this.state.filmpilihan
-            datafilm.push({movie:this.props.movie.title,booked:this.props.pilih})
-            this.props.onGabungan(datafilm)
-            this.setState({filmpilihan:datafilm})
-            if(this.state.filmpilihan.length!==0){
-                var id=this.props.user.id
-                Axios.patch('http://localhost:2000/users/'+id,{cart:this.state.filmpilihan})
-                .then((res)=>{
-                    console.log(res.data)
-                    this.setState({filmpilihan:res.data.cart})
-                })
-                .catch((err)=>{
-                    console.log(err)
-                })
-             
+    var id=this.props.user.id
+    
+    Axios.get('http://localhost:2000/users/'+id)
+    .then((res)=>{
+        this.setState({cart:res.data.cart})
+    })
+    
 
-            }
-        }
+    console.log(this.props.user)
       
         
         // var pilihan=this.state.orderseat
@@ -37,33 +39,73 @@ class Cart extends React.Component {
         
         
     }
+    onCheckout=(index)=>{
+        var data=this.state.cart
+        var transaction=data[index]
+        console.log(transaction)
+        var transaksi=this.props.user.transaction
+        transaksi.push(transaction)
+        console.log(transaksi)
+        data.splice(index,1)
+        this.setState({cart:data})
+        Axios.patch(ApiURL+'/users/'+this.props.user.id,{cart:data})
+        .then(()=>{
+            alert('terimakasih telah membayar')
+            Axios.patch(ApiURL+'/users/'+this.props.user.id,{transaction:transaksi})
+            .then(()=>{
+    
+            })
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
     rendercart=()=>{
-        var alphabet='abcdefghijklmnopqrstuvwxyz'.toUpperCase()
-        return this.state.filmpilihan.map((val,index)=>{
+        if(this.state.cart.length===0){
+            return(<div>loading...</div>)
+        }
+        return this.state.cart.map((val,index)=>{
                 return(
-                    <tr>
-                        <td>{index+1}</td>
-                        <td>{val.movie}</td>
-                        <td>
-                          {val.booked.map((val1)=>
-                          {return alphabet[val1[0]]+[val1[1]]
-                          })}
-                        </td>
-                        <td>
-                            <input value='delete' type='button'/>
-                        </td>
-                    </tr>
+                    <TableRow>
+                        <TableCell>{index+1}</TableCell>
+                        <TableCell>{val.title}</TableCell>
+                        <TableCell>
+                          {val.quantity}
+                        </TableCell>
+                        <TableCell>
+                          {val.totalharga}
+                        </TableCell>
+                        <TableCell>
+                            <input value='cancel' type='button' className='btn btn-danger'/>
+                        </TableCell>
+                        <TableCell>
+                            <input value=' checkout' className='btn btn-success' type='button' onClick={()=>this.onCheckout(index)}/>
+                        </TableCell>
+                    </TableRow>
                 )
             })
         
     }
     render() { 
         return (
-        <div className='container row justify-content-center'>
-            <table className='mt-5 bg-dark'>
-                {this.state.filmpilihan===null?<h1>loading...</h1>: this.rendercart()}
-            </table>
-        </div> );
+        <Container>
+            <Paper>
+                <Table>
+                    <TableHead>
+                        <TableCell>No.</TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Jumlah kursi</TableCell>
+                        <TableCell>Total Harga</TableCell>
+                        <TableCell>Cancel</TableCell>
+                        <TableCell>Checkout</TableCell>
+                    </TableHead>
+                    <TableBody>
+                        {this.state.filmpilihan===null?<h1>loading...</h1>: this.rendercart()}
+                    </TableBody>
+                </Table>
+
+            </Paper>
+        </Container> );
     }
 }
 const mapStateToProps=(state)=>{

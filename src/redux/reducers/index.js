@@ -4,6 +4,7 @@ import pilihanReducers from './pilihan.'
 import MovieReducers from './moviepilihan'
 import SeatReducers from './seatjudul'
 
+
 export default combineReducers({
     user:userReducers,
     bebas:pilihanReducers,

@@ -11,10 +11,11 @@ import Login from './pages/login'
 import SeatReserve from './pages/seatreserve'
 import {ApiURL} from './supports/UApiURL'
 import Axios from 'axios';
-import {OnRegistersuccess} from './redux/actions'
+import {OnRegistersuccess,onLoginAdmin} from './redux/actions'
 import {connect} from 'react-redux'
 import Cart from './pages/cart'
 import Pagenotfound from './pages/pagesnotfound'
+import History from './pages/history'
 class App extends React.Component {
   state = {  }
   componentDidMount(){
@@ -23,7 +24,20 @@ class App extends React.Component {
         Axios.get(ApiURL+'/users?username='+username)
         .then((res)=>{
           console.log(res.data)
-          this.props.OnRegistersuccess(res.data[0])
+          if(res.data.length===0){
+            Axios.get(ApiURL+'/admin?username='+username)
+            .then((res)=>{
+              console.log(res.data)
+              this.props.OnRegistersuccess(res.data[0])
+              
+              console.log(this.props.user)
+            })
+            .catch((err)=>{
+              console.log(err)
+            })
+          }else{
+            this.props.OnRegistersuccess(res.data[0])
+          }
         })
         .catch((err)=>{
           console.log(err)
@@ -45,6 +59,7 @@ class App extends React.Component {
         <Route path='/login' component={Login}/>
         <Route path='/seatreserve' component={SeatReserve}/>
         <Route path='/cart' component={Cart}/>
+        <Route path='/history' component={History}/>
         <Route path='/*' component={Pagenotfound}/>
       </Switch>
     </div>  );
@@ -55,5 +70,5 @@ const mapStateToProps=(state)=>{
     user:state.user.username
   }
 }
-export default connect(mapStateToProps,{OnRegistersuccess}) (App);
+export default connect(mapStateToProps,{OnRegistersuccess,onLoginAdmin}) (App);
 
