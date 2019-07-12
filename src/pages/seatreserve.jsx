@@ -213,7 +213,6 @@ class SeatReserve extends React.Component {
             <h5>
                 {this.renderharga()}
             </h5>
-    
             <Modal isOpen={this.state.modalopen} toggle={()=>this.setState({modalopen:false})} className='text-white' modalClassName='' contentClassName='bg-login-seat' centered='true'>
                 <ModalHeader className='pt-4'>
                     <div className='tbl-modal rounded-circle text-center' onClick={()=>this.setState({modalopen:false})}>X</div>
