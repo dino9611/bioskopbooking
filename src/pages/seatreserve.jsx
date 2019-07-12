@@ -197,7 +197,7 @@ class SeatReserve extends React.Component {
             <h1>{this.props.location.state.title}</h1>
             <h1>Order Seat Here</h1>
             <input type='button' value='Reset' onClick={this.onClickReset} className='float-right btn-seat rounded-pill reset'/>
-            <input type='button' value='Buy' onClick={this.onBuyClick}  className='float-right btn-seat rounded-pill reset mr-2'/>
+            <input type='button' value='Cart' onClick={()=>this.setState({modalopen:true})} className='float-right btn-seat rounded-pill reset'/>
             <br/>
             <div className='row justify-content-center mt-3'>
                 <table className=''>
@@ -213,7 +213,7 @@ class SeatReserve extends React.Component {
             <h5>
                 {this.renderharga()}
             </h5>
-            <input type='button' value='Cart' onClick={()=>this.setState({modalopen:true})} className='float-right btn-seat rounded-pill reset'/>
+    
             <Modal isOpen={this.state.modalopen} toggle={()=>this.setState({modalopen:false})} className='text-white' modalClassName='' contentClassName='bg-login-seat' centered='true'>
                 <ModalHeader className='pt-4'>
                     <div className='tbl-modal rounded-circle text-center' onClick={()=>this.setState({modalopen:false})}>X</div>
