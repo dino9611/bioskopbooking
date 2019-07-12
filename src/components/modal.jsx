@@ -34,6 +34,8 @@ export class ModalEdit extends React.Component{
                     duration: a.editduration.value ,
                     sutradara: a.editsutradara.value,
                     image:a.editimage.value,
+                    seats:a.editseats.value,
+                    booked:this.state.data[this.props.index].booked
                 }).then((res)=>{
                     // bisa dengan cara
                         var data = this.state.data
@@ -94,6 +96,7 @@ export class ModalEdit extends React.Component{
                 <input ref='edittrailer' type='text' className='form-control mt-2' placeholder='Trailer' defaultValue={this.state.data[this.props.index].trailer} />
                 <textarea ref='editsinopsis'type='text' className='form-control mt-2' placeholder='sinopsis' defaultValue={this.state.data[this.props.index].sinopsis} />
                 <input ref='editduration' type='number' className='form-control mt-2' placeholder='Duration' defaultValue={this.state.data[this.props.index].duration}/>
+                <input ref='editseats' type='number' className='form-control mt-2' placeholder='Seats' defaultValue={this.state.data[this.props.index].seats}/>
             </ModalBody>
             <ModalFooter>
                 <input type='button' value='Cancel' className='btn btn-danger' onClick={this.props.closemodal} />

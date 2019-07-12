@@ -3,8 +3,7 @@ import React from 'react';
 import {
     Table,
     TableBody,
-    TableCell,
-    
+    TableCell, 
     Paper,
     Container,
     TableHead,
@@ -14,8 +13,10 @@ import {
 import {DeleteForeverRounded,EditAttributesSharp} from '@material-ui/icons'
 import Axios from 'axios'
 import {Modal, ModalBody, ModalHeader,ModalFooter,FormGroup,Label,Input} from 'reactstrap'
-import {ModalEdit} from './../../components/modal' 
-
+import {ModalEdit} from './../../components/modal'
+import Pagenotfound from './../pagesnotfound'
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 class Managemovie extends React.Component {
     //state
     state = { 
@@ -286,6 +287,8 @@ class Managemovie extends React.Component {
                 trailer:a.trailer.value,
                 sutradara: a.sutradara.value,
                 image:a.image.value,
+                seats:a.seats.value,
+                booked:[]
             }).then((res)=>{
                 // bisa dengan cara
                 // this.setState({data : [...this.state.data , res.data]})
@@ -311,7 +314,13 @@ class Managemovie extends React.Component {
     }
     // close modal
 
-    render() { 
+    render() {
+        if(this.props.user.id===0){
+            return (<Redirect to='/'></Redirect>)
+        }
+        if(this.props.user.role!=='admin'){
+            return (<Pagenotfound/>)
+        }
         return ( 
             <Container fixed>
                 <h1>Manage movie Page</h1>
@@ -361,6 +370,7 @@ class Managemovie extends React.Component {
                             <input ref='trailer' type='text' className='form-control mt-2' placeholder='Trailer' />
                             <textarea ref='sinopsis'type='text' className='form-control mt-2' placeholder='sinopsis' />
                             <input ref='duration' type='number' className='form-control mt-2' placeholder='Duration' />
+                            <input ref='seats' type='number' className='form-control mt-2' placeholder='Seats' />
                         </ModalBody>
                         <ModalFooter>
                             <input type='button' value='Cancel' className='btn btn-danger' onClick={()=>this.setState({modalOpen:false})} />
@@ -402,5 +412,12 @@ class Managemovie extends React.Component {
         );
     }
 }
- 
-export default Managemovie;
+const mapStateToProps=(state)=>{
+    return{
+        pilih:state.bebas.chosen,
+        movie:state.movie,
+        seat:state.seat.seat,
+        user:state.user
+    }
+} 
+export default connect(mapStateToProps) (Managemovie);

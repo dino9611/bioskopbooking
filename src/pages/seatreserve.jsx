@@ -186,6 +186,9 @@ class SeatReserve extends React.Component {
         if(this.state.openredirect===true){
             return(<Redirect to='/cart'></Redirect>)
         }
+        if(this.props.user.id===0){
+            return (<Redirect to='/'></Redirect>)
+        }
         if(this.state.datamovie===null){
             return(<h1>Loading....</h1>)
         }

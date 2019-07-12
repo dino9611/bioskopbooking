@@ -14,7 +14,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCouch,faUser} from '@fortawesome/free-solid-svg-icons'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import {onLogout} from './../redux/actions/auth'
 
 class Header extends React.Component {
@@ -23,7 +23,8 @@ class Header extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      Redirect:false,
     };
   }
   toggle() {
@@ -34,6 +35,7 @@ class Header extends React.Component {
   onBtnLogoutClick=()=>{
     this.props.onLogout()
     localStorage.removeItem('terserah')
+    this.setState({Redirect:true})
   }
   render() {
     return (
@@ -43,17 +45,23 @@ class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} color='white' className='putih' />
           <Collapse isOpen={this.state.isOpen} className='putih' navbar>
             <Nav className="ml-auto putih" navbar>
+            {
+              this.props.user.role!=='user'?null:
+                <NavItem>
+                <NavLink><Link className='putih' style={{textDecoration:'none'}} to='/history'>History</Link> </NavLink> 
+              </NavItem>
+            }
               {
                 this.props.user.role==='admin' ? <NavItem >
                 <NavLink><Link className='putih' style={{textDecoration:'none'}} to='/manage'>Manage</Link></NavLink>
               </NavItem>
               :     
-              this.props.user.role==='admin'?null:<NavItem >
-                <NavLink><Link className='putih' style={{textDecoration:'none'}} to='/cart'>Cart</Link></NavLink>
+              this.props.user.role!=='user'?null:<NavItem >
+                
+                <NavLink><Link className='putih' style={{textDecoration:'none'}} to='/cart'>Cart {this.props.user.cart.length} </Link></NavLink>
               </NavItem>
-
             }
- 
+        
               <NavItem>
               {this.props.user.username===''?
                  <NavLink className=' '><Link to='/register'style={{textDecoration:'none'}} className=' text-center text-white'><div className="header-login register rounded">Join Now</div></Link> </NavLink>
@@ -70,7 +78,7 @@ class Header extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Option
+                  <Link to='/gantipass'style={{textDecoration:'none'}} className='  text-center text-dark'>Settings</Link>
                   </DropdownItem>
                   <DropdownItem>
                      Option 2
